@@ -1,0 +1,187 @@
+<head>
+  <link href="https://vjs.zencdn.net/8.10.0/video-js.css" rel="stylesheet" />
+  <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-QWTKZyjpPEjISv5WaRU9OFeRpok6YctnYmDr5pNlyT2bRjXh0JMhjY6hW+ALEwIH" crossorigin="anonymous">
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.11.3/font/bootstrap-icons.min.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+</head>
+
+<body>
+<div class="container" style="height: 85vh;">
+	<div class="row" style="height: 100%;">
+		<div class="col-xs-12">
+		    <video
+		      id="vid1"
+		      class="video-js vjs-default-skin vjs-fill"
+		      controls
+		      data-setup='{ "techOrder": ["youtube"], "sources": [{ "type": "video/youtube", "src": "https://www.youtube.com/embed/jB32_Fy7l1Y"}], "youtube": { "ytControls": 0 } }'
+		    >
+		    </video>
+		</div>
+	</div>
+</div>
+
+<div class="modal" tabindex="-1" role="dialog" id="modal">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modal-title">Modal title</h5>
+      </div>
+      <div class="modal-body">
+        <p id="modal-body">Modal body text goes here.</p>
+      </div>
+      <div class="modal-footer">
+		<button type="button" id="previous-step-button" class="btn btn-primary" onClick="replayStep(true)"><i class="bi bi-skip-backward-fill"></i> Previous step</button>
+        <button type="button" class="btn btn-primary" onClick="replayStep(false)"><i class="bi bi-arrow-clockwise"></i> Replay this step</button>
+        <button type="button" class="btn btn-secondary" onClick="continueStep()"><i class="bi bi-play-fill"></i> Continue</button>
+      </div>
+    </div>
+  </div>
+</div>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/lodash.js/4.17.21/lodash.min.js"></script>
+  <script src="https://vjs.zencdn.net/8.10.0/video.min.js"></script>
+  <script src="https://unpkg.com/videojs-youtube@3.0.1/dist/Youtube.min.js"></script>
+  <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.7.1/jquery.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.11.8/dist/umd/popper.min.js" integrity="sha384-I7E8VVD/ismYTF4hNIPjVp/Zjvgyol6VFvRkX/vR+Vc4jQkC+hVqc2pM8ODewa9r" crossorigin="anonymous"></script>
+  <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.min.js" integrity="sha384-0pUGZvbkm6XF6gxjEnlmuGrJXVbNuzT9qBBavbLwCsOGabYfZo0T0to5eqruptLy" crossorigin="anonymous"></script>
+  <script>
+	  const player = videojs('vid1');
+	  const steps = [
+		  {
+			  step: 1,
+			  start: 2.22,
+			  end: 3.83,
+			  title: 'Add cream cheese',
+			  description: 'Add 400g (1-2/3 cups) softened cream cheese to the bowl.'
+		  },
+		  {
+			  step: 2,
+			  start: 3.83,
+			  end: 5.22,
+			  title: 'Add sugar',
+			  description: 'Add 100g (1/2 cup) sugar to the bowl.'
+		  },
+		  {
+			  step: 3,
+			  start: 5.22,
+			  end: 6.22,
+			  title: 'Blend cream cheese and sugar',
+			  description: 'Blend cream cheese and sugar on medium for 30 seconds.'
+		  },
+		  {
+			  step: 4,
+			  start: 6.22,
+			  end: 11.52,
+			  title: 'Add eggs',
+			  description: "Add 3 eggs, straight from the refrigerator. Make sure not to leave any shells. 😀"
+		  },
+		  {
+			  step: 5,
+			  start: 11.52,
+			  end: 13.81,
+			  title: 'Blend',
+			  description: "Blend eggs into the wet mixture until well incorporated."
+		  },
+		  {
+			  step: 6,
+			  start: 13.81,
+			  end: 15.88,
+			  title: 'Add vanilla',
+			  description: "Add 5g (1 teaspoon) vanilla extract."
+		  },
+		  {
+			  step: 7,
+			  start: 15.88,
+			  end: 17.67,
+			  title: 'Add cream',
+			  description: "Add 300ml (1-1/4 cups) double (heavy whipping) cream."
+		  },
+		  {
+			  step: 8,
+			  start: 17.67,
+			  end: 20.02,
+			  title: 'Add flour',
+			  description: "To the wet mixture, add 15g (2 tablespoons) all-purpose flour."
+		  },
+		  {
+			  step: 9,
+			  start: 20.02,
+			  end: 22.31,
+			  title: 'Add cornstarch',
+			  description: "Add 5g (2 teaspoons) corn starch."
+		  },
+		  {
+			  step: 10,
+			  start: 22.31,
+			  end: 23.32,
+			  title: 'Blend',
+			  description: "Blend the wet and dry ingredients on medium for 30 seconds or until well incorporated."
+		  },
+		  {
+			  step: 11,
+			  start: 23.32,
+			  end: 27.51,
+			  title: 'Line the pan',
+			  description: 'Line a 6" round pan with parchment paper.'
+		  },
+		  {
+			  step: 12,
+			  start: 27.51,
+			  end: 35.95,
+			  title: 'Pour in the batter',
+			  description: 'Pour the batter into the pan, then drop the pan onto the countertop to release any trapped air. Optionally, you can use a culinary torch to pop bubbles visible on the surface of your cheesecake.'
+		  },
+		  {
+			  step: 13,
+			  start: 35.95,
+			  end: 39.65,
+			  title: 'Bake',
+			  description: 'Bake the cheesecake at 240ºC (450ºF) for 30 minutes.'
+		  },
+		  {
+			  step: 13,
+			  start: 35.95,
+			  end: 39.65,
+			  title: 'Remove from oven and cool',
+			  description: 'Remove the cheesecake from the oven when the top is deeply brown and cracked. Allow it to cool in the pan for at least 2 hours.'
+		  }
+	  ]
+	  var currentStep = 0;
+	  
+	  player.on('pause', () => {
+		  const pauseTime = player.currentTime();
+		  const matchingSteps = steps.filter((step) => {
+			  return step.start <= pauseTime && step.end >= pauseTime;
+		  });
+		  if (matchingSteps.length > 0) {
+			  const step = matchingSteps[0];
+  			  currentStep = step.step;
+			  if (currentStep == 1) {
+				$('#previous-step-button').hide();
+			  } else {
+			  	$('#previous-step-button').show();
+			  }
+			  $('#modal-title').text(step.title);
+			  $('#modal-body').text(step.description);
+			  $('#modal').modal('show');
+		  } else {
+			  currentStep = 0;
+		  }
+	  });
+	  
+	  player.on('play', () => {
+		  currentStep = 0;
+		  $('#modal').modal('hide');
+	  });
+	  
+	  const replayStep = (shouldPlayPrevious) => {
+	  	const offset = shouldPlayPrevious ? -1 : 0;
+	  	const step = _.find(steps, {'step': currentStep + offset});
+		player.currentTime(step.start);
+		player.play();
+	  };
+	  
+	  const continueStep = () => {
+		  player.play();
+	  };
+  </script>
+</body>
